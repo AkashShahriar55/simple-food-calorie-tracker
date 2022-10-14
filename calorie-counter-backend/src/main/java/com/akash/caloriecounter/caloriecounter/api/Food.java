@@ -1,5 +1,6 @@
 package com.akash.caloriecounter.caloriecounter.api;
 
+import com.akash.caloriecounter.user.api.User;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -21,6 +22,9 @@ public class Food {
 
     @Temporal(TemporalType.DATE)
     private Date creationDate = new Date(System.currentTimeMillis());
+
+    @ManyToOne
+    private User user;
 
     public Food() {
     }
@@ -71,5 +75,13 @@ public class Food {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -2,6 +2,7 @@ package com.akash.caloriecounter;
 
 import com.akash.caloriecounter.auth.api.AuthApi;
 import com.akash.caloriecounter.models.AuthenticationRequest;
+import com.akash.caloriecounter.user.api.Role;
 import com.akash.caloriecounter.user.api.User;
 import com.akash.caloriecounter.user.api.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,18 @@ public class UserRepositoryTest {
 
         assert user != null;
         assert user.getEmail().equals(username);
+
+    }
+
+    @Test
+    public void testAssignRoleToUser() {
+        Integer userId = 3;
+        Integer roleId = 2;
+        User user = userRepository.findById(userId).get();
+        user.addRole(new Role(roleId));
+
+        User updatedUser = userRepository.save(user);
+        assert  updatedUser.getRoles().size() > 0;
 
     }
 }
