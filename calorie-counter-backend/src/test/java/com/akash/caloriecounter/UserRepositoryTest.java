@@ -28,9 +28,9 @@ public class UserRepositoryTest {
     @Test
     public void testCreateUser(){
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String rawPassword = "akash71";
+        String rawPassword = "akash";
         String encodedPassword = passwordEncoder.encode(rawPassword);
-        User user = new User("akashshahriar1@gmail.com",rawPassword);
+        User user = new User("akashshahriar.admin@gmail.com",encodedPassword);
 
         User savedUser = userRepository.save(user);
         assert savedUser != null;
@@ -53,8 +53,8 @@ public class UserRepositoryTest {
 
     @Test
     public void testAssignRoleToUser() {
-        Integer userId = 3;
-        Integer roleId = 2;
+        Integer userId = 8;
+        Integer roleId = 1;
         User user = userRepository.findById(userId).get();
         user.addRole(new Role(roleId));
 

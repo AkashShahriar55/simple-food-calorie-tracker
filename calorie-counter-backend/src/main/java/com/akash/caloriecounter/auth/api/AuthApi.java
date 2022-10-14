@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.net.ssl.SSLEngineResult;
+
 @RestController
 public class AuthApi {
 
@@ -31,6 +33,11 @@ public class AuthApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthApi.class);
 
 
+    @GetMapping
+    public String hello(){
+        return "Hello server";
+    }
+
     @PostMapping( "/auth/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest){
         try {
@@ -41,7 +48,13 @@ public class AuthApi {
 
             User user = (User) authentication.getPrincipal();
             String accessToken = jwtTokenUtil.generateAccessToken(user);
-            AuthenticationResponse response = new AuthenticationResponse( accessToken);
+            AuthenticationResponse response = new AuthenticationResponse(
+                    accessToken,
+                    200,
+                    user.getRolesAsList(),
+                    user.getId()+"",
+                    user.getUsername()
+                    );
 
             return ResponseEntity.ok().body(response);
 

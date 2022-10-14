@@ -1,6 +1,7 @@
 package com.akash.caloriecounter.caloriecounter.api;
 
 import com.akash.caloriecounter.user.api.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Food {
     private Date creationDate = new Date(System.currentTimeMillis());
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     public Food() {
