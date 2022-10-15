@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.akash.calorie_tracker.domain.models.*
 import com.akash.calorie_tracker.domain.usecases.LoginUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 
@@ -19,15 +21,23 @@ class LoginViewModel @Inject constructor(
 ): ViewModel()  {
 
 
-    private val _loginResponse:MutableLiveData<ResponseState<LoginData>> = MutableLiveData()
-    var loginResponse: LiveData<ResponseState<LoginData>> = _loginResponse
+    val handler = CoroutineExceptionHandler {
+            context, exception ->
+        if(exception is SocketTimeoutException)
+            _loginResponse.value = ResponseState<User>(Status.TIMEOUT,"Timeout","Please check your internet connection",null)
+        println("Caught $exception")
+    }
+
+
+    private val _loginResponse:MutableLiveData<ResponseState<User>> = MutableLiveData()
+    var loginResponse: LiveData<ResponseState<User>> = _loginResponse
 
     fun login(loginRequest: LoginRequest):Boolean{
 
-        if(loginUseCases.isAlreadyLoggedIn(loginRequest.email))
+        if(loginUseCases.loginWithSession(loginRequest.email))
             return true
 
-        viewModelScope.launch {
+        viewModelScope.launch(handler) {
             _loginResponse.value = loginUseCases.login(loginRequest).value
         }
         return false

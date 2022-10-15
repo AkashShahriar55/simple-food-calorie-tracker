@@ -34,7 +34,6 @@ class SplashScreen : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
     private val loginViewModel:LoginViewModel by viewModels()
 
-    @Inject lateinit var sessionManager:SessionManager
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -45,7 +44,7 @@ class SplashScreen : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val username = "akashshahriar.admin@gmail.com";
+        val username = "akashshahriar.user@gmail.com";
         val password = "akash"
 
 
@@ -60,9 +59,9 @@ class SplashScreen : AppCompatActivity() {
             Log.d("response", "onCreate: " + it)
             it?.let {
                 if(it.status == Status.Login_successfull){
-                    onLoggedInSuccessFull(it.data?.roles!!)
+                    onLoggedInSuccessFull(it.data?.enumRoles!!)
                 }else{
-                    onLoggedInFailed()
+                    showLoginFailedAlert(it.title,it.message)
                 }
 
             }
@@ -73,9 +72,7 @@ class SplashScreen : AppCompatActivity() {
         }
     }
 
-    private fun onLoggedInFailed() {
-        showLoginFailedAlert()
-    }
+
 
     private fun onLoggedInSuccessFull(roles: List<Role>) {
 
@@ -90,10 +87,12 @@ class SplashScreen : AppCompatActivity() {
 
     }
 
-    private fun showLoginFailedAlert() {
+
+
+    private fun showLoginFailedAlert(title:String,message:String) {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Login Failed")
-            .setMessage("Email or password is wrong . App will exit now.")
+            .setTitle(title)
+            .setMessage(message)
             .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, which -> finish()  })
             .setCancelable(false)
             .show()

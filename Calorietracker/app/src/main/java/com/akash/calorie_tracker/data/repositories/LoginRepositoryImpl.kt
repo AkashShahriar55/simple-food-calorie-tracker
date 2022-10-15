@@ -14,29 +14,34 @@ class LoginRepositoryImpl(
     val sessionManager: SessionManager
 ):LoginRepository {
 
-    val loginStatusLiveData = MutableLiveData<ResponseState<LoginData>>()
+    val loginStatusLiveData = MutableLiveData<ResponseState<User>>()
 
 
-    override suspend fun login(loginRequest: LoginRequest):LiveData<ResponseState<LoginData>> {
+    override suspend fun login(loginRequest: LoginRequest):LiveData<ResponseState<User>> {
         val response = loginDataSource.login(loginRequest)
 
         if(!response.isSuccessful){
-            loginStatusLiveData.value = ResponseState(Status.Login_failed,"Login failed",null)
+            loginStatusLiveData.value = ResponseState(Status.Login_failed,"Login failed","Email or password is incorrect.",null)
         }else{
             response.body()?.let {
                 Log.d("response", "login: " + it)
-                sessionManager.saveAuthToken(it.username,it.authToken)
-                sessionManager.saveRoles(it.username,it.roles)
+
+                val user =  User(
+                    it.id,
+                    it.roles,
+                    it.username
+                )
+
+
+                sessionManager.setUser(user,it.authToken)
                 loginStatusLiveData.value = ResponseState(
                     Status.Login_successfull,
+                    "Login Successful",
                     "Successfully Logged in",
-                    LoginData(
-                        it.id,
-                        DataFormatHelper.extractRoles(it.roles)
-                    )
+                    user
                 )
             } ?: kotlin.run {
-                loginStatusLiveData.value = ResponseState(Status.Error,"Something went wrong",null)
+                loginStatusLiveData.value = ResponseState(Status.Error,"Empty Response","Something went wrong !",null)
             }
 
         }
@@ -49,6 +54,10 @@ class LoginRepositoryImpl(
 
     override fun getSavedRoles(username: String): List<Role> {
         return  sessionManager.getRoles(username)
+    }
+
+    override fun loginWithSession(email: String): Boolean {
+        return sessionManager.login(email)
     }
 
 

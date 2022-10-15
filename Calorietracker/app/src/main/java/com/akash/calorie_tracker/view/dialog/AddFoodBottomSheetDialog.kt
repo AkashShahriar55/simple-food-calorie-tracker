@@ -10,7 +10,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toFile
 import com.akash.calorie_tracker.databinding.AddFoodDialogBinding
+import com.akash.calorie_tracker.domain.models.FoodCreateRequest
+import com.akash.calorie_tracker.helpers.DataFormatHelper
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -22,6 +25,9 @@ import java.util.*
 class AddFoodBottomSheetDialog() : BottomSheetDialogFragment() {
 
 
+
+
+    private var dialogCallback: DialogCallback? = null
     var mProfileUri: Uri? = null
     lateinit var binding:AddFoodDialogBinding
     lateinit var datePicker:MaterialDatePicker<Long>
@@ -36,6 +42,8 @@ class AddFoodBottomSheetDialog() : BottomSheetDialogFragment() {
                 val fileUri = data?.data!!
 
                 mProfileUri = fileUri
+
+
                 binding.ivFoodImage.setImageURI(mProfileUri)
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -75,6 +83,10 @@ class AddFoodBottomSheetDialog() : BottomSheetDialogFragment() {
             binding.dateEt.setText(formattedDate)
         }
 
+        val calendar: Calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        val format = SimpleDateFormat("yyyy-MM-dd")
+        val formattedDate: String = format.format(calendar.time)
+        binding.dateEt.setText(formattedDate)
 
         binding.btnAddImage.setOnClickListener {
             openImagePicker()
@@ -89,12 +101,54 @@ class AddFoodBottomSheetDialog() : BottomSheetDialogFragment() {
             if(hasFocus)
                 openDatePicker()
         }
+
+
+
+        binding.btnAddFood.setOnClickListener {
+            validateData()
+        }
+
+    }
+
+    private fun validateData() {
+        val name = binding.foodNameEt.text?.toString()
+        val calorie = binding.calorieEt.text?.toString()
+        val date = binding.dateEt.text?.toString()!!
+
+
+        if(name.isNullOrEmpty()){
+            binding.foodNameTil.error = "Please enter name"
+            return
+        }
+
+
+        if(calorie.isNullOrEmpty()){
+            binding.calorieTil.error = "Please enter calorie"
+            return
+        }
+
+
+        val calorieFloat =  calorie.toFloat()
+
+
+
+        dialogCallback?.onAddFood(
+                FoodCreateRequest(
+                name,
+                calorieFloat,
+                date,
+                null,
+                null
+            )
+        )
+
+
     }
 
     private fun openImagePicker() {
         ImagePicker.with(this)
             .crop()	    			//Crop image(Optional), Check Customization for more option
-            .compress(1024)			//Final image size will be less than 1 MB(Optional)
+            .compress(100)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .createIntent { intent ->
                 startForProfileImageResult.launch(intent)
@@ -104,6 +158,17 @@ class AddFoodBottomSheetDialog() : BottomSheetDialogFragment() {
 
 
 
+    companion object{
+        fun newInstance(dialogCallback: DialogCallback?): AddFoodBottomSheetDialog {
+            val args = Bundle()
+
+            val fragment = AddFoodBottomSheetDialog()
+            fragment.dialogCallback = dialogCallback
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     fun openDatePicker(){
 
 
@@ -111,6 +176,10 @@ class AddFoodBottomSheetDialog() : BottomSheetDialogFragment() {
     }
 
 
+
+    interface DialogCallback{
+        fun onAddFood(foodCreateRequest: FoodCreateRequest)
+    }
 
 
 

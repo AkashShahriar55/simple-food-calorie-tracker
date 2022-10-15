@@ -9,7 +9,7 @@ class LoginUseCases(
 ) {
 
 
-    suspend fun login(loginRequest: LoginRequest):LiveData<ResponseState<LoginData>> {
+    suspend fun login(loginRequest: LoginRequest):LiveData<ResponseState<User>> {
         return loginRepository.login(loginRequest)
     }
 
@@ -19,6 +19,10 @@ class LoginUseCases(
 
     fun getSavedRoles(username: String):List<Role>{
         return loginRepository.getSavedRoles(username)
+    }
+
+    fun loginWithSession(email: String): Boolean {
+        return  loginRepository.loginWithSession(email)
     }
 
 
