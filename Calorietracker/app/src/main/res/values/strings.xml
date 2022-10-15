@@ -4,4 +4,18 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="logging_in">Logging in...</string>
+    <string name="previous">Prev</string>
+    <string name="content_description_previous">Go to previous date</string>
+    <string name="next">next</string>
+    <string name="content_description_next">Go to next day</string>
+    <string name="filter">Filter</string>
+    <string name="content_description_filter">Filter food entry by date</string>
+    <string name="add_icon_desc">Add food history</string>
+    <string name="logout_and_exit">Logout and exit</string>
+    <string name="logout_from_app_and_exit">Logout from app and exit</string>
+    <string name="daily_calorie_limit">Daily calorie limit</string>
+    <string name="add_food">Add food</string>
+    <string name="food_name">Food Name</string>
+    <string name="calorie">Calorie</string>
+    <string name="date">Date</string>
 </resources>

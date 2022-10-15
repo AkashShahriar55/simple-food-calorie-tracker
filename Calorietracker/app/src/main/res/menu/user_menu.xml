@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/previous"
+        android:icon="@drawable/previous"
+        android:title="@string/previous"
+        android:contentDescription="@string/content_description_previous"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/next"
+        android:icon="@drawable/next"
+        android:title="@string/next"
+        android:contentDescription="@string/content_description_next"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/filter"
+        android:icon="@drawable/filter_alt"
+        android:title="@string/filter"
+        android:contentDescription="@string/content_description_filter"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        android:title="@string/logout_and_exit"
+        android:contentDescription="@string/logout_from_app_and_exit"
+        app:showAsAction="never"
+        />
+</menu>

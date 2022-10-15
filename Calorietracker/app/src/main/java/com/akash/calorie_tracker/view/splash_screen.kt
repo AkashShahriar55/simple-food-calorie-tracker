@@ -16,6 +16,7 @@ import com.akash.calorie_tracker.databinding.ActivitySplashScreenBinding
 import com.akash.calorie_tracker.domain.models.LoginRequest
 import com.akash.calorie_tracker.domain.models.Role
 import com.akash.calorie_tracker.domain.models.Status
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import de.halfbit.edgetoedge.Edge
 import de.halfbit.edgetoedge.edgeToEdge
@@ -90,7 +91,7 @@ class splash_screen : AppCompatActivity() {
     }
 
     private fun showLoginFailedAlert() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle("Login Failed")
             .setMessage("Email or password is wrong . App will exit now.")
             .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, which -> finish()  })
@@ -101,11 +102,13 @@ class splash_screen : AppCompatActivity() {
     private fun goToUserActivity() {
         val intent = Intent(this,UserActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun goToAdminActivity() {
         val intent = Intent(this,AdminActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
 
