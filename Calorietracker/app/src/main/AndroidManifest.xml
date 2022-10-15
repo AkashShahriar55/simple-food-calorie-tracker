@@ -25,7 +25,7 @@
             android:name=".view.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".view.splash_screen"
+            android:name=".view.SplashScreen"
             android:exported="true"
             android:label="@string/title_activity_splash_screen">
             <intent-filter>

@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class splash_screen : AppCompatActivity() {
+class SplashScreen : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
     private val loginViewModel:LoginViewModel by viewModels()
@@ -45,7 +45,7 @@ class splash_screen : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val username = "akashshahriar.user@gmail.com";
+        val username = "akashshahriar.admin@gmail.com";
         val password = "akash"
 
 
