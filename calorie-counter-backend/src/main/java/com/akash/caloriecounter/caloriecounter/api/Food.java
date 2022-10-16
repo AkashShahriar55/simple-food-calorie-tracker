@@ -1,8 +1,10 @@
 package com.akash.caloriecounter.caloriecounter.api;
 
 import com.akash.caloriecounter.user.api.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,28 +18,52 @@ public class Food {
     @Column(nullable = false,length = 128)
     private String name;
 
+    @Column(nullable = false)
     private float calories;
 
-    @Column(name = "calorie_limit")
-    private float calorieLimit;
+
 
     @Temporal(TemporalType.DATE)
-    private Date creationDate = new Date(System.currentTimeMillis());
+    @Column(name = "creation_date",nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date creationDate;
 
     @ManyToOne
-    @JsonIgnore
     private User user;
+
+
+//    private long size;
+    private String image;
 
     public Food() {
     }
 
-    public Food(int id, String name, float calories, float calorieLimit, Date creationDate) {
-        Id = id;
+
+//    public long getSize() {
+//        return size;
+//    }
+//
+//    public void setSize(long size) {
+//        this.size = size;
+//    }
+
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Food(String name, float calories, Date creationDate) {
         this.name = name;
         this.calories = calories;
-        this.calorieLimit = calorieLimit;
         this.creationDate = creationDate;
     }
+
+
 
     public int getId() {
         return Id;
@@ -63,13 +89,7 @@ public class Food {
         this.calories = calories;
     }
 
-    public float getCalorieLimit() {
-        return calorieLimit;
-    }
 
-    public void setCalorieLimit(float calorieLimit) {
-        this.calorieLimit = calorieLimit;
-    }
 
     public Date getCreationDate() {
         return creationDate;
@@ -82,6 +102,8 @@ public class Food {
     public User getUser() {
         return user;
     }
+
+
 
     public void setUser(User user) {
         this.user = user;

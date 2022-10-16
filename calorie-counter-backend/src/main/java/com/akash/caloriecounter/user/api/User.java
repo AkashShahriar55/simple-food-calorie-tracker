@@ -1,5 +1,6 @@
 package com.akash.caloriecounter.user.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +17,13 @@ public class User implements UserDetails {
 
     @Column(nullable = false,unique = true,length = 128)
     private String email;
+
     @Column(nullable = false,length = 128)
+    @JsonIgnore
     private String password;
+
+    @Column(name = "calorie_limit")
+    private Float calorieLimit = 2100f;
 
     @ManyToMany
     @JoinTable(
@@ -25,6 +31,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
 
@@ -77,6 +84,14 @@ public class User implements UserDetails {
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public Float getCalorieLimit() {
+        return calorieLimit;
+    }
+
+    public void setCalorieLimit(Float calorieLimit) {
+        this.calorieLimit = calorieLimit;
     }
 
     public String getPassword() {

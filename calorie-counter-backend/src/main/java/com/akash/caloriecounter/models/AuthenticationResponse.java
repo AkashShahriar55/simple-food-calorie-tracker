@@ -12,6 +12,8 @@ public class AuthenticationResponse {
     private final String id;
     private final String username;
 
+
+
     public AuthenticationResponse(String auth_token, int status_code,List<String> roles,String id,String username) {
         this.auth_token = auth_token;
         this.status_code = status_code;
