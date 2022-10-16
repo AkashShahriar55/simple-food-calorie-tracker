@@ -7,7 +7,10 @@ import java.io.File
 import java.util.*
 import javax.annotation.meta.Exclusive
 
-data class FoodCreateRequest(
+data class FoodEditRequest(
+
+
+    val id:String,
 
     @Expose
     val name:String,

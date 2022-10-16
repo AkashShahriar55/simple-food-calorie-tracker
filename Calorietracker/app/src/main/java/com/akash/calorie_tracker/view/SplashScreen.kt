@@ -44,7 +44,7 @@ class SplashScreen : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val username = "akashshahriar.user@gmail.com";
+        val username = "akashshahriar.admin@gmail.com";
         val password = "akash"
 
 

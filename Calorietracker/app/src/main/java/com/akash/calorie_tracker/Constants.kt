@@ -14,3 +14,6 @@ const val ALL_FOODS_ADMIN = "foods/all"
 
 const val REPORT = "foods/report"
 
+const val UPDATE = "foods/update"
+
+const val DELETE = "foods/delete"

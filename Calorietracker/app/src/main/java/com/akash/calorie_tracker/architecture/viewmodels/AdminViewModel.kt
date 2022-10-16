@@ -1,5 +1,6 @@
 package com.akash.calorie_tracker.architecture.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import androidx.paging.cachedIn
 import com.akash.calorie_tracker.ITEMS_PER_PAGE
 import com.akash.calorie_tracker.domain.models.*
 import com.akash.calorie_tracker.domain.repositories.AdminRepository
+import com.akash.calorie_tracker.domain.repositories.ClientRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AdminViewModel @Inject constructor(
-    val adminRepository: AdminRepository
+    val adminRepository: AdminRepository,
+    val clientRepository: ClientRepository
 ):ViewModel() {
 
     val handler = CoroutineExceptionHandler {
@@ -57,5 +60,61 @@ class AdminViewModel @Inject constructor(
         }
         return reportResponse
     }
+
+    private val _foodDataResponse: MutableLiveData<ResponseState<Unit>> = MutableLiveData()
+    var foodDataResponse: LiveData<ResponseState<Unit>> = _foodDataResponse
+
+    private val _addFoodDataResponse: MutableLiveData<Food> = MutableLiveData()
+    var addFoodDataResponse: LiveData<Food> = _addFoodDataResponse
+
+    fun createFood(createRequest: FoodCreateRequest): LiveData<Food> {
+        viewModelScope.launch(handler) {
+            val response = clientRepository.addFoodEntry(createRequest)
+
+            Log.d("test", "createFood: " + response.message())
+
+            if(response.isSuccessful){
+                _addFoodDataResponse.value = response.body()
+                _foodDataResponse.value = ResponseState(Status.SUCCESSFUL,"Add food success","Add food was successful",null)
+            }else{
+                _foodDataResponse.value = ResponseState(Status.FAILED,"Add food failed","Add food was not successful",null)
+            }
+
+
+        }
+
+        return addFoodDataResponse
+
+    }
+
+
+    private val _foodUpdateResponse: MutableLiveData<ResponseState<Unit>> = MutableLiveData()
+    var foodUpdateResponse: LiveData<ResponseState<Unit>> = _foodUpdateResponse
+    fun updateFood(foodEditRequest: FoodEditRequest):LiveData<ResponseState<Unit>>{
+        viewModelScope.launch(handler) {
+            val response = adminRepository.updateFood(foodEditRequest)
+
+            _foodUpdateResponse.value = response
+
+
+        }
+
+        return foodUpdateResponse
+    }
+
+    private val _foodDeleteResponse: MutableLiveData<ResponseState<Unit>> = MutableLiveData()
+    var foodDeleteResponse: LiveData<ResponseState<Unit>> = _foodDeleteResponse
+    fun deleteFood(foodEditRequest: FoodEditRequest):LiveData<ResponseState<Unit>>{
+        viewModelScope.launch(handler) {
+            val response = adminRepository.updateFood(foodEditRequest)
+
+            _foodDeleteResponse.value = response
+
+
+        }
+
+        return foodDeleteResponse
+    }
+
 
 }

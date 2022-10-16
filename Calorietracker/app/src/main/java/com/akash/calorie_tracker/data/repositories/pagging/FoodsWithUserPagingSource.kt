@@ -52,7 +52,7 @@ class FoodsWithUserPagingSource(
             if (!response.body().isNullOrEmpty()) {
                 LoadResult.Page(
                     data = response.body()!!,
-                    prevKey = if (currentPage == 1) null else currentPage - 1,
+                    prevKey = if (currentPage == 0) null else currentPage - 1,
                     nextKey = if (endOfPaginationReached) null else currentPage + 1
                 )
             } else {

@@ -5,10 +5,7 @@ import androidx.paging.PagingSource
 import com.akash.calorie_tracker.architecture.manager.SessionManager
 import com.akash.calorie_tracker.data.repositories.datasource.AdminDataSource
 import com.akash.calorie_tracker.data.repositories.pagging.FoodsWithUserPagingSource
-import com.akash.calorie_tracker.domain.models.FoodWithUserInfo
-import com.akash.calorie_tracker.domain.models.Reports
-import com.akash.calorie_tracker.domain.models.ResponseState
-import com.akash.calorie_tracker.domain.models.Status
+import com.akash.calorie_tracker.domain.models.*
 import com.akash.calorie_tracker.domain.repositories.AdminRepository
 
 class AdminRepositoryImpl(
@@ -16,9 +13,8 @@ class AdminRepositoryImpl(
     val sessionManager: SessionManager
 ) : AdminRepository {
 
-    val foodsWithUserPagingSource = FoodsWithUserPagingSource(adminDataSource)
     override fun dataSource(): PagingSource<Int, FoodWithUserInfo> {
-        return foodsWithUserPagingSource
+        return FoodsWithUserPagingSource(adminDataSource)
     }
 
     override suspend fun getReports(): ResponseState<Reports> {
@@ -38,6 +34,34 @@ class AdminRepositoryImpl(
 
     override fun logout() {
         sessionManager.logout()
+    }
+
+    override suspend fun deleteFood(foodEditRequest: FoodEditRequest): ResponseState<Unit> {
+        val response = adminDataSource.delete(foodEditRequest)
+        Log.d("check", "deleteFood: " + response.message())
+        return if(response.isSuccessful){
+            if(response.body()!=null){
+                ResponseState(Status.SUCCESSFUL,"Food deleted","food delete was successful",null)
+            }else{
+                ResponseState(Status.FAILED,"Body empty","no data fetched",null)
+            }
+        }else{
+            ResponseState(Status.FAILED,"Food delete failed","Food delete was not successful",null)
+        }
+    }
+
+    override suspend fun updateFood(foodEditRequest: FoodEditRequest): ResponseState<Unit> {
+        val response = adminDataSource.update(foodEditRequest)
+        Log.d("check", "updateFood: " + response.message())
+        return if(response.isSuccessful){
+            if(response.body()!=null){
+                ResponseState(Status.SUCCESSFUL,"Food updated","Food update was successful",null)
+            }else{
+                ResponseState(Status.FAILED,"Body empty","no data fetched",null)
+            }
+        }else{
+            ResponseState(Status.FAILED,"Food update failed","Food update was not successful",null)
+        }
     }
 
 

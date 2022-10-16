@@ -79,6 +79,10 @@ class FoodsWithUserAdapter : PagingDataAdapter<FoodWithUserInfo, FoodsWithUserAd
     }
 
 
+    interface Callback{
+        fun onClick(food: FoodWithUserInfo?)
+    }
+
 
 
 }

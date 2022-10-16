@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.akash.calorie_tracker.databinding.AvgCalorieItemBinding
 import com.akash.calorie_tracker.domain.models.AvgCalorie
-import com.akash.calorie_tracker.domain.models.Food
 
 
 class AvgCalorieAdapter : RecyclerView.Adapter<AvgCalorieAdapter.AvgCalorieViewHolder>(){
@@ -29,10 +28,11 @@ class AvgCalorieAdapter : RecyclerView.Adapter<AvgCalorieAdapter.AvgCalorieViewH
     private val mDiffer = AsyncListDiffer<AvgCalorie>(this, diffCallback)
 
 
-    inner class AvgCalorieViewHolder(binding: AvgCalorieItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner class AvgCalorieViewHolder(val binding: AvgCalorieItemBinding):RecyclerView.ViewHolder(binding.root){
 
-        fun bind(food: Food){
-
+        fun bind(food: AvgCalorie){
+            binding.tvName.text = food.email
+            binding.tvAvgCalorie.text= food.avgCalories.toString()
         }
 
 
@@ -54,7 +54,7 @@ class AvgCalorieAdapter : RecyclerView.Adapter<AvgCalorieAdapter.AvgCalorieViewH
     }
 
     override fun onBindViewHolder(holder: AvgCalorieViewHolder, position: Int) {
-
+        holder.bind(getItem(position))
     }
 
     override fun getItemCount(): Int {
