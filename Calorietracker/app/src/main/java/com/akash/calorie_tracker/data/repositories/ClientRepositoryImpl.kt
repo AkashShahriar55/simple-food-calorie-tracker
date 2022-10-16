@@ -68,5 +68,9 @@ class ClientRepositoryImpl(
         return dailyCalorieLimit
     }
 
+    override fun logout() {
+        sessionManager.logout()
+    }
+
 
 }

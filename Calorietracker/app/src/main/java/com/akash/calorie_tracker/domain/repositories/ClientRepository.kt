@@ -18,4 +18,5 @@ interface ClientRepository {
     fun getFoodDataLiveData(): LiveData<List<Food>>
 
     fun dailyCalorieLimitLiveData(): LiveData<DailyCalorieLimit>
+    fun logout()
 }

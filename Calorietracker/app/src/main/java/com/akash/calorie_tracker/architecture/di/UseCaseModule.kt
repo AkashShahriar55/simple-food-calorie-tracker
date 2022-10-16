@@ -1,6 +1,6 @@
 package com.akash.calorie_tracker.architecture.di
 
-import com.akash.calorie_tracker.domain.repositories.FoodRepository
+import com.akash.calorie_tracker.domain.repositories.AdminRepository
 import com.akash.calorie_tracker.domain.repositories.LoginRepository
 import com.akash.calorie_tracker.domain.usecases.FoodUserUserCase
 import com.akash.calorie_tracker.domain.usecases.LoginUseCases
@@ -16,9 +16,9 @@ object UseCaseModule {
 
     @Provides
     fun provideSearchUseCase(
-        foodRepository: FoodRepository
+        adminRepository: AdminRepository
     ): FoodUserUserCase =
-        FoodUserUserCase(foodRepository)
+        FoodUserUserCase(adminRepository)
 
 
     @Provides

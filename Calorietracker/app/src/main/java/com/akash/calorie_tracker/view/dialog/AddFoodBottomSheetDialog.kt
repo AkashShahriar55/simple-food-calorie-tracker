@@ -4,6 +4,7 @@ import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -131,6 +133,21 @@ class AddFoodBottomSheetDialog() : BottomSheetDialogFragment() {
         val calorieFloat =  calorie.toFloat()
 
 
+        var file:File? = null
+
+        mProfileUri?.let { uri->
+            context?.let { context->
+                context.contentResolver?.let { contentResolver ->
+                    val path = DataFormatHelper.getPath(uri,contentResolver)
+                    Log.d("image_check", "validateData: " + path)
+                    file = File(uri.path)
+                }
+            }
+        }
+
+
+        Log.d("image_check", "validateData: $file")
+
 
         dialogCallback?.onAddFood(
                 FoodCreateRequest(
@@ -138,7 +155,7 @@ class AddFoodBottomSheetDialog() : BottomSheetDialogFragment() {
                 calorieFloat,
                 date,
                 null,
-                null
+                    file
             )
         )
 

@@ -11,10 +11,11 @@ class SessionManager(context: Context) {
     private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
 
     private var user:User? = null
-    private var authToken :String? = null
+//    private var authToken :String? = null
 
     companion object {
         const val USER_TOKEN = "user_token"
+        var authToken :String? = null
     }
 
     /**
@@ -59,17 +60,25 @@ class SessionManager(context: Context) {
     }
 
     fun setUser(user: User,authToken:String) {
-        this.authToken = authToken
+        SessionManager.authToken = authToken
         this.user = user
         saveAuthToken(user.email,authToken)
         saveRoles(user.email,user.roles)
     }
 
     fun login(email: String): Boolean {
-        this.authToken  =fetchAuthToken(email)
-
+        authToken  =fetchAuthToken(email)
+        val roles = prefs.getStringSet(email+":role", null)?.toList()
+        this.user = User("",roles ?: arrayListOf(),email)
         return authToken != null
 
+    }
+
+    fun logout() {
+        user?.let {
+            prefs.edit().remove(it.email+":auth").apply();
+            prefs.edit().remove(it.email+":role").apply();
+        }
     }
 
 

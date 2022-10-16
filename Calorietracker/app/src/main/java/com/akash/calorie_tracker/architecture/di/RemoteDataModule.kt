@@ -1,13 +1,13 @@
 package com.akash.calorie_tracker.architecture.di
 
 import com.akash.calorie_tracker.data.api.ClientApi
-import com.akash.calorie_tracker.data.api.FoodApi
+import com.akash.calorie_tracker.data.api.AdminApi
 import com.akash.calorie_tracker.data.api.LoginApi
 import com.akash.calorie_tracker.data.repositories.datasource.ClientDataSource
-import com.akash.calorie_tracker.data.repositories.datasource.FoodDataSource
+import com.akash.calorie_tracker.data.repositories.datasource.AdminDataSource
 import com.akash.calorie_tracker.data.repositories.datasource.LoginDataSource
 import com.akash.calorie_tracker.data.repositories.datasourceimpl.ClientDataSourceImpl
-import com.akash.calorie_tracker.data.repositories.datasourceimpl.FoodDataSourceImpl
+import com.akash.calorie_tracker.data.repositories.datasourceimpl.AdminDataSourceImpl
 import com.akash.calorie_tracker.data.repositories.datasourceimpl.LoginDatasourceImpl
 import dagger.Module
 import dagger.Provides
@@ -22,8 +22,8 @@ object RemoteDataModule {
 
     @Provides
     @Singleton
-    fun provideFoodDataSource(foodApi: FoodApi): FoodDataSource {
-        return FoodDataSourceImpl(foodApi)
+    fun provideFoodDataSource(foodApi: AdminApi): AdminDataSource {
+        return AdminDataSourceImpl(foodApi)
     }
 
     @Provides

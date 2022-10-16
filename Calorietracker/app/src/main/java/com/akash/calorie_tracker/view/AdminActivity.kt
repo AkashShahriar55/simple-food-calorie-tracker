@@ -3,12 +3,21 @@ package com.akash.calorie_tracker.view
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akash.calorie_tracker.R
+import com.akash.calorie_tracker.architecture.viewmodels.AdminViewModel
 import com.akash.calorie_tracker.databinding.ActivityAdminBinding
+import com.akash.calorie_tracker.view.adapters.FoodsAdapter
+import com.akash.calorie_tracker.view.adapters.FoodsWithUserAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 enum class Navigation{
@@ -17,10 +26,12 @@ enum class Navigation{
     NONE
 }
 
+@AndroidEntryPoint
 class AdminActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityAdminBinding
 
+    val viewmodel:AdminViewModel by viewModels()
     var currentNavigation = Navigation.NONE
 
 
@@ -44,6 +55,16 @@ class AdminActivity : AppCompatActivity() {
 //        }
 
 
+        binding.toolbar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.logout->logout()
+            }
+            return@setOnMenuItemClickListener true
+        }
+
+
+
+
         binding.bottomNavigation.setOnItemSelectedListener {
             Log.d("nav_check", "onCreate: " + it.title)
             when(it.itemId){
@@ -65,6 +86,12 @@ class AdminActivity : AppCompatActivity() {
 
 
     }
+
+    private fun logout() {
+        viewmodel.logout()
+        finish()
+    }
+
 
     private fun goToReportPage() {
         if(currentNavigation == Navigation.REPORT_PAGE)

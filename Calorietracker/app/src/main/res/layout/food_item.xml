@@ -51,11 +51,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_calorie" />
 
             <ImageView
+                android:id="@+id/iv_food"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/progress_1"
-                app:layout_constraintDimensionRatio="1:1"
+
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

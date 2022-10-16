@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.akash.calorie_tracker.BASE_URL
+import com.akash.calorie_tracker.architecture.manager.SessionManager
 import com.akash.calorie_tracker.databinding.FoodItemBinding
 import com.akash.calorie_tracker.domain.models.Food
 import com.akash.calorie_tracker.domain.models.User
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 
 
 class FoodsAdapter : RecyclerView.Adapter<FoodsAdapter.FoodViewHolder>(){
@@ -38,6 +43,17 @@ class FoodsAdapter : RecyclerView.Adapter<FoodsAdapter.FoodViewHolder>(){
             binding.tvName.text = "Name: ${food.name}"
             binding.tvCalorie.text = "Calorie: ${food.calorie}"
             binding.tvDate.text = "Date: ${food.date}"
+
+            val url = BASE_URL+"images/"+food.image
+            val glideUrl = GlideUrl(
+                url,
+                LazyHeaders.Builder()
+                    .addHeader("Authorization", "Bearer ${SessionManager.authToken}")
+                    .build())
+
+            Glide.with(binding.ivFood)
+                .load(glideUrl)
+                .into(binding.ivFood);
         }
 
 

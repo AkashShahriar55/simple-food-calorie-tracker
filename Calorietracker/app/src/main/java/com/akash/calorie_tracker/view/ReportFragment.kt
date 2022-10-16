@@ -5,18 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akash.calorie_tracker.R
+import com.akash.calorie_tracker.architecture.viewmodels.AdminViewModel
 import com.akash.calorie_tracker.databinding.FragmentFoodListPageBinding
 import com.akash.calorie_tracker.databinding.FragmentReportBinding
-import com.akash.calorie_tracker.domain.models.AvgCalories
+import com.akash.calorie_tracker.domain.models.Status
 import com.akash.calorie_tracker.view.adapters.AvgCalorieAdapter
 import com.akash.calorie_tracker.view.adapters.FoodsWithUserAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReportFragment : Fragment() {
 
     var avgCalorieAdapter = AvgCalorieAdapter()
     lateinit var  binding: FragmentReportBinding
+
+    val adminViewModel: AdminViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -37,6 +44,17 @@ class ReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+
+        adminViewModel.fetchReports().observe(viewLifecycleOwner){
+            if(it.status == Status.SUCCESSFUL){
+                it.data?.let {data->
+                    binding.tvThisWeekEntry.text =  "${data.thisWeekCount} entries";
+                    binding.tvLastWeekEntry.text =  "${data.lastWeekCount} entries";
+                    avgCalorieAdapter.submitList(data.avgCalorieList)
+                }
+            }
+
+        }
     }
 
     private fun setupRecyclerView() {

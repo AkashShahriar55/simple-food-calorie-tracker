@@ -1,8 +1,8 @@
 package com.akash.calorie_tracker.domain.usecases
 
-import com.akash.calorie_tracker.domain.repositories.FoodRepository
+import com.akash.calorie_tracker.domain.repositories.AdminRepository
 
 class FoodUserUserCase(
-    val foodRepository: FoodRepository
+    val adminRepository: AdminRepository
 ) {
 }

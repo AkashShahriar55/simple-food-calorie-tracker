@@ -1,5 +1,6 @@
 package com.akash.calorie_tracker.view
 
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
@@ -43,6 +44,7 @@ class UserActivity : AppCompatActivity() {
 
     var isLoading = true
 
+    var progressDialog:ProgressDialog? = null
 
      val clientViewModel:UserViewModel by viewModels()
 
@@ -59,12 +61,20 @@ class UserActivity : AppCompatActivity() {
 
 
 
+        progressDialog =  ProgressDialog(this)
+        progressDialog?.isIndeterminate = true;
+        progressDialog?.setMessage("Loading...")
+
+
         setupRecyclerView()
 
         dialogCallback =  object : AddFoodBottomSheetDialog.DialogCallback{
             override fun onAddFood(foodCreateRequest: FoodCreateRequest) {
+                Log.d("add_food", "onAddFood: ")
+                progressDialog?.show()
                 clientViewModel.createFood(foodCreateRequest).observe(this@UserActivity){
                     Log.d("test", "onAddFood: " + it)
+                    progressDialog?.dismiss()
                     it?.let {
                         if(isFilterOn){
                             val fromDate: String = format.format(filterFromDay.time)
@@ -89,6 +99,7 @@ class UserActivity : AppCompatActivity() {
                 R.id.previous-> goToPreviousDate()
                 R.id.next->goToNextDate()
                 R.id.filter->openFilerPicker()
+                R.id.logout->logout()
             }
             return@setOnMenuItemClickListener true
         }
@@ -108,6 +119,12 @@ class UserActivity : AppCompatActivity() {
 
 
     }
+
+    private fun logout() {
+        clientViewModel.logout()
+        finish()
+    }
+
 
     private fun openFilerPicker() {
         val dateRangePicker =

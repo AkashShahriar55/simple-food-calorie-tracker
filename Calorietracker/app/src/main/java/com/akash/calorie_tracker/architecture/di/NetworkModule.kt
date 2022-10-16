@@ -2,11 +2,10 @@ package com.akash.calorie_tracker.architecture.di
 
 
 
-import android.util.Log
 import com.akash.calorie_tracker.BASE_URL
 import com.akash.calorie_tracker.architecture.manager.SessionManager
 import com.akash.calorie_tracker.data.api.ClientApi
-import com.akash.calorie_tracker.data.api.FoodApi
+import com.akash.calorie_tracker.data.api.AdminApi
 import com.akash.calorie_tracker.data.api.LoginApi
 import dagger.Module
 import dagger.Provides
@@ -61,8 +60,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideFoodApi(retrofit: Retrofit): FoodApi {
-        return retrofit.create(FoodApi::class.java)
+    fun provideFoodApi(retrofit: Retrofit): AdminApi {
+        return retrofit.create(AdminApi::class.java)
     }
 
 

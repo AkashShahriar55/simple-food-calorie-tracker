@@ -27,7 +27,7 @@
                 android:layout_marginEnd="5dp"
                 android:text="Mexican fried rice"
                 app:layout_constraintBottom_toTopOf="@+id/tv_calorie"
-                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintEnd_toStartOf="@+id/iv_foodimage"
                 app:layout_constraintStart_toStartOf="@+id/tv_calorie"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
                 android:layout_marginEnd="5dp"
                 android:text="Calorie: 500 cal"
                 app:layout_constraintBottom_toTopOf="@+id/tv_date"
-                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintEnd_toStartOf="@+id/iv_foodimage"
                 app:layout_constraintStart_toStartOf="@+id/tv_date"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
@@ -48,27 +48,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:text="Date: 10-10-2022"
-                app:layout_constraintBottom_toTopOf="@+id/textView6"
-                app:layout_constraintEnd_toStartOf="@+id/imageView"
-                app:layout_constraintStart_toStartOf="@+id/textView6"
+                app:layout_constraintBottom_toTopOf="@+id/tv_username"
+                app:layout_constraintEnd_toStartOf="@+id/iv_foodimage"
+                app:layout_constraintStart_toStartOf="@+id/tv_username"
                 app:layout_constraintTop_toBottomOf="@+id/tv_calorie" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tv_username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:text="Created by: akashshahriar55@gmail.com"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintEnd_toStartOf="@+id/iv_foodimage"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_date" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/iv_foodimage"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/progress_1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"

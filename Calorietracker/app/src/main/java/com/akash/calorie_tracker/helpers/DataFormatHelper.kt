@@ -1,6 +1,7 @@
 package com.akash.calorie_tracker.helpers
 
 import android.content.ContentResolver
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
@@ -27,6 +28,17 @@ object DataFormatHelper {
             }
         }
         return rolesEnum
+    }
+
+    fun getPath(uri: Uri,contentResolver: ContentResolver): String {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor =
+            contentResolver.query(uri, projection, null, null, null) ?: return ""
+        val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        val s: String = cursor.getString(column_index)
+        cursor.close()
+        return s
     }
 
     fun imageToString(imageUri:Uri?,contentResolver: ContentResolver?): String {

@@ -36,6 +36,11 @@ class UserViewModel @Inject constructor(
 
 
 
+    fun logout(){
+        clientRepository.logout()
+    }
+
+
 
     private val _addFoodDataResponse: MutableLiveData<Food> = MutableLiveData()
     var addFoodDataResponse: LiveData<Food> = _addFoodDataResponse
@@ -44,7 +49,7 @@ class UserViewModel @Inject constructor(
             viewModelScope.launch(handler) {
                 val response = clientRepository.addFoodEntry(createRequest)
 
-                Log.d("test", "createFood: " + response.body())
+                Log.d("test", "createFood: " + response.message())
 
                 if(response.isSuccessful){
                     _addFoodDataResponse.value = response.body()
