@@ -36,6 +36,24 @@ public class FoodApi {
     FileStorageService storageService;
 
 
+    @DeleteMapping("/delete")
+    @RolesAllowed({"ROLE_ADMIN"})
+    public ResponseEntity<ResponseMessage> delete(
+            @RequestBody Food food
+    ){
+        foodRepository.delete(food);
+        return ResponseEntity.ok().body(new ResponseMessage("deleted"));
+    }
+
+    @PutMapping("/update")
+    @RolesAllowed({"ROLE_ADMIN"})
+    public ResponseEntity<ResponseMessage> update(
+            @RequestBody Food food
+    ){
+        foodRepository.save(food);
+        return ResponseEntity.ok().body(new ResponseMessage("deleted"));
+    }
+
     @GetMapping("/all")
     @RolesAllowed({"ROLE_ADMIN"})
     public List<Food> allList(
