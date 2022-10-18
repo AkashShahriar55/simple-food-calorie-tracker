@@ -36,12 +36,12 @@ public class FoodApi {
     FileStorageService storageService;
 
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id:.+}")
     @RolesAllowed({"ROLE_ADMIN"})
     public ResponseEntity<ResponseMessage> delete(
-            @RequestBody Food food
+            @PathVariable Integer id
     ){
-        foodRepository.delete(food);
+        foodRepository.deleteById(id);
         return ResponseEntity.ok().body(new ResponseMessage("deleted"));
     }
 
@@ -51,7 +51,7 @@ public class FoodApi {
             @RequestBody Food food
     ){
         foodRepository.save(food);
-        return ResponseEntity.ok().body(new ResponseMessage("deleted"));
+        return ResponseEntity.ok().body(new ResponseMessage("updated"));
     }
 
     @GetMapping("/all")
@@ -116,7 +116,7 @@ public class FoodApi {
     public ResponseEntity<Food> create(
             @RequestPart("food_data") @Valid  Food food  ,
             @RequestPart("image") MultipartFile multipartFile
-    ) {
+    ) throws Exception {
 
         System.out.println(food);
         System.out.println(multipartFile.isEmpty());

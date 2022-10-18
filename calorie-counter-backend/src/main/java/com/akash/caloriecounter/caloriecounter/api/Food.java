@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 
 @Entity
@@ -27,6 +28,22 @@ public class Food {
     @Column(name = "creation_date",nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date creationDate;
+
+
+//    @Temporal(TemporalType.TIME)
+    @Column(name = "creation_time",nullable = false)
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private Time creationTime;
+
+
+    public Time getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Time creationTime) {
+        this.creationTime = creationTime;
+    }
+
 
     @ManyToOne
     private User user;
