@@ -1,6 +1,8 @@
 package com.akash.caloriecounter;
 
 import com.akash.caloriecounter.filters.JwtRequestFilter;
+import com.akash.caloriecounter.services.FileStorageService;
+import com.akash.caloriecounter.services.FileStorageServiceImpl;
 import com.akash.caloriecounter.user.api.UserRepository;
 import com.akash.caloriecounter.user.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     private JwtRequestFilter jwtRequestFilter;
 
 
+    @Autowired
+    private FileStorageService fileStorageService;
+
 
 
     @Override
@@ -64,6 +69,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -68,6 +68,22 @@ public class FoodApi {
         return foodRepository.findAll(pageable).toList();
     }
 
+    @GetMapping("/users")
+    @RolesAllowed({"ROLE_ADMIN"})
+    public List<UserLimitedData> allusers(
+            ){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User thisUser = (User) authentication.getPrincipal();
+        List<User> users = userRepository.findAll();
+
+        List<UserLimitedData> userLimitedData = new ArrayList<>();
+        for(User user:users){
+            if(user.getId() != thisUser.getId() )
+                userLimitedData.add(new UserLimitedData(user.getId(),user.getEmail()));
+        }
+        return userLimitedData;
+    }
+
 
     @GetMapping("/report")
     @RolesAllowed({"ROLE_ADMIN"})
@@ -116,13 +132,15 @@ public class FoodApi {
     public ResponseEntity<Food> create(
             @RequestPart("food_data") @Valid  Food food  ,
             @RequestPart("image") MultipartFile multipartFile
-    ) throws Exception {
+    )  {
 
         System.out.println(food);
         System.out.println(multipartFile.isEmpty());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        food.setUser((User) authentication.getPrincipal());
+        if(food.getUser() == null) food.setUser((User) authentication.getPrincipal());
+
+        System.out.println(food.getUser().toString());
 
         if(!multipartFile.isEmpty()){
             try {
@@ -135,6 +153,7 @@ public class FoodApi {
         }
         Food savedFood = foodRepository.save(food);
         URI productURI = URI.create("/foods/" + savedFood.getId());
+        savedFood.setUser(null);
         return ResponseEntity.created(productURI).body(savedFood);
     }
 

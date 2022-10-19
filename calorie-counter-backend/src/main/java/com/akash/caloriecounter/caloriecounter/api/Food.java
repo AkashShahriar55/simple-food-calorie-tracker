@@ -125,4 +125,18 @@ public class Food {
     public void setUser(User user) {
         this.user = user;
     }
+
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "Id=" + Id +
+                ", name='" + name + '\'' +
+                ", calories=" + calories +
+                ", creationDate=" + creationDate +
+                ", creationTime=" + creationTime +
+                ", user=" + user +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

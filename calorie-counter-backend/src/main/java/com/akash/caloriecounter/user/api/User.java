@@ -126,4 +126,16 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", calorieLimit=" + calorieLimit +
+                ", roles=" + roles +
+                '}';
+    }
 }
