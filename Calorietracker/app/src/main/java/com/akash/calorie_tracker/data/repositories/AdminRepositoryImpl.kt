@@ -36,8 +36,9 @@ class AdminRepositoryImpl(
         sessionManager.logout()
     }
 
-    override suspend fun deleteFood(foodEditRequest: FoodEditRequest): ResponseState<Unit> {
-        val response = adminDataSource.delete(foodEditRequest)
+    override suspend fun deleteFood(foodEditRequest: FoodWithUserInfo): ResponseState<Unit> {
+        if(foodEditRequest.id == null) return ResponseState(Status.FAILED,"Id is null","no id for food entry",null)
+        val response = adminDataSource.delete(foodEditRequest.id!!.toInt())
         Log.d("check", "deleteFood: " + response.message())
         return if(response.isSuccessful){
             if(response.body()!=null){
@@ -61,6 +62,20 @@ class AdminRepositoryImpl(
             }
         }else{
             ResponseState(Status.FAILED,"Food update failed","Food update was not successful",null)
+        }
+    }
+
+    override suspend fun getUsers(): ResponseState<List<User>> {
+        val response = adminDataSource.getUsers()
+        Log.d("check", "getReports: " + response.message())
+        return if(response.isSuccessful){
+            if(response.body()!=null){
+                ResponseState(Status.SUCCESSFUL,"User fetched","User fetch was successful",response.body())
+            }else{
+                ResponseState(Status.FAILED,"Body empty","no data fetched",null)
+            }
+        }else{
+            ResponseState(Status.FAILED,"User fetch failed","User fetch was not successful",null)
         }
     }
 

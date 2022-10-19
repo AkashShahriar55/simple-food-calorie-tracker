@@ -2,9 +2,7 @@ package com.akash.calorie_tracker.data.repositories.datasourceimpl
 
 import com.akash.calorie_tracker.data.api.AdminApi
 import com.akash.calorie_tracker.data.repositories.datasource.AdminDataSource
-import com.akash.calorie_tracker.domain.models.FoodEditRequest
-import com.akash.calorie_tracker.domain.models.FoodWithUserInfo
-import com.akash.calorie_tracker.domain.models.Reports
+import com.akash.calorie_tracker.domain.models.*
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -26,8 +24,12 @@ class AdminDataSourceImpl(
         return adminApi.updateFood(foodEditRequest)
     }
 
-    override suspend fun delete(foodEditRequest: FoodEditRequest): Response<ResponseBody> {
-        return adminApi.deleteFood(foodEditRequest)
+    override suspend fun delete(id:Int): Response<ResponseBody> {
+        return adminApi.deleteFood(id)
+    }
+
+    override suspend fun getUsers(): Response<List<User>> {
+        return adminApi.getUsers()
     }
 
 

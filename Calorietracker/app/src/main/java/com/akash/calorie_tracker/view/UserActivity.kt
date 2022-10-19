@@ -13,6 +13,7 @@ import com.akash.calorie_tracker.R
 import com.akash.calorie_tracker.architecture.viewmodels.UserViewModel
 import com.akash.calorie_tracker.databinding.ActivityUserBinding
 import com.akash.calorie_tracker.domain.models.FoodCreateRequest
+import com.akash.calorie_tracker.domain.models.FoodWithUserInfo
 import com.akash.calorie_tracker.domain.models.Status
 import com.akash.calorie_tracker.view.adapters.FoodsAdapter
 import com.akash.calorie_tracker.view.dialog.AddFoodBottomSheetDialog
@@ -87,6 +88,10 @@ class UserActivity : AppCompatActivity() {
 
                     }
                 }
+            }
+
+            override fun onDeleteFood(food: FoodWithUserInfo?) {
+
             }
 
         }
@@ -193,6 +198,8 @@ class UserActivity : AppCompatActivity() {
     }
 
     private fun showFailedAlertDialog(title: String, message: String) {
+        binding.loadingProgress.visibility = View.GONE
+        progressDialog?.dismiss()
         MaterialAlertDialogBuilder(this)
             .setTitle(title)
             .setMessage(message)

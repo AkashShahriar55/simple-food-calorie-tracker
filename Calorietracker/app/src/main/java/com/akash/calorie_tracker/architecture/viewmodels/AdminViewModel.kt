@@ -88,25 +88,13 @@ class AdminViewModel @Inject constructor(
     }
 
 
-    private val _foodUpdateResponse: MutableLiveData<ResponseState<Unit>> = MutableLiveData()
-    var foodUpdateResponse: LiveData<ResponseState<Unit>> = _foodUpdateResponse
-    fun updateFood(foodEditRequest: FoodEditRequest):LiveData<ResponseState<Unit>>{
-        viewModelScope.launch(handler) {
-            val response = adminRepository.updateFood(foodEditRequest)
 
-            _foodUpdateResponse.value = response
-
-
-        }
-
-        return foodUpdateResponse
-    }
 
     private val _foodDeleteResponse: MutableLiveData<ResponseState<Unit>> = MutableLiveData()
     var foodDeleteResponse: LiveData<ResponseState<Unit>> = _foodDeleteResponse
-    fun deleteFood(foodEditRequest: FoodEditRequest):LiveData<ResponseState<Unit>>{
+    fun deleteFood(foodEditRequest: FoodWithUserInfo):LiveData<ResponseState<Unit>>{
         viewModelScope.launch(handler) {
-            val response = adminRepository.updateFood(foodEditRequest)
+            val response = adminRepository.deleteFood(foodEditRequest)
 
             _foodDeleteResponse.value = response
 
@@ -114,6 +102,17 @@ class AdminViewModel @Inject constructor(
         }
 
         return foodDeleteResponse
+    }
+
+
+    private val _usersResponse: MutableLiveData<ResponseState<List<User>>> = MutableLiveData()
+    var usersResponse: LiveData<ResponseState<List<User>>> = _usersResponse
+
+    fun fetchUsers():LiveData<ResponseState<List<User>>>{
+        viewModelScope.launch(handler) {
+            _usersResponse.value = adminRepository.getUsers()
+        }
+        return usersResponse
     }
 
 

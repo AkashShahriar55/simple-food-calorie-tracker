@@ -1,6 +1,7 @@
 package com.akash.calorie_tracker.view.adapters
 
 
+import android.telecom.Call
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,10 +17,14 @@ import com.akash.calorie_tracker.domain.models.FoodWithUserInfo
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
+import java.text.SimpleDateFormat
 
 
-class FoodsWithUserAdapter : PagingDataAdapter<FoodWithUserInfo, FoodsWithUserAdapter.FoodWithUserViewHolder>(
+class FoodsWithUserAdapter(
+    val onClickCallback: Callback
+) : PagingDataAdapter<FoodWithUserInfo, FoodsWithUserAdapter.FoodWithUserViewHolder>(
     diffCallback) {
+
 
 
     companion object{
@@ -44,7 +49,12 @@ class FoodsWithUserAdapter : PagingDataAdapter<FoodWithUserInfo, FoodsWithUserAd
             food?.let {
                 binding.tvName.text = "Name: ${food.name}"
                 binding.tvCalorie.text = "Calorie: ${food.calorie}"
-                binding.tvDate.text = "Date: ${food.date}"
+                val _24HourTime = food.time
+                val _24HourSDF = SimpleDateFormat("HH:mm")
+                val _12HourSDF = SimpleDateFormat("hh:mm a")
+                val _24HourDt = _24HourSDF.parse(_24HourTime)
+                val time =  _12HourSDF.format(_24HourDt!!)
+                binding.tvDate.text = "Date: ${food.date} $time"
                 binding.tvUsername.text = "CreatedBy: ${food.user?.email}"
 
 
@@ -76,6 +86,10 @@ class FoodsWithUserAdapter : PagingDataAdapter<FoodWithUserInfo, FoodsWithUserAd
 
     override fun onBindViewHolder(holder: FoodWithUserViewHolder, position: Int) {
         holder.bind(getItem(position))
+
+        holder.itemView.setOnClickListener {
+            onClickCallback.onClick(getItem(position))
+        }
     }
 
 

@@ -32,7 +32,7 @@ class AvgCalorieAdapter : RecyclerView.Adapter<AvgCalorieAdapter.AvgCalorieViewH
 
         fun bind(food: AvgCalorie){
             binding.tvName.text = food.email
-            binding.tvAvgCalorie.text= food.avgCalories.toString()
+            binding.tvAvgCalorie.text= String.format("%.2f",food.avgCalories) +" cals"
         }
 
 

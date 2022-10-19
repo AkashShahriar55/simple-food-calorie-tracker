@@ -15,6 +15,7 @@ import com.akash.calorie_tracker.domain.models.User
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
+import java.text.SimpleDateFormat
 
 
 class FoodsAdapter : RecyclerView.Adapter<FoodsAdapter.FoodViewHolder>(){
@@ -42,7 +43,12 @@ class FoodsAdapter : RecyclerView.Adapter<FoodsAdapter.FoodViewHolder>(){
 
             binding.tvName.text = "Name: ${food.name}"
             binding.tvCalorie.text = "Calorie: ${food.calorie}"
-            binding.tvDate.text = "Date: ${food.date}"
+            val _24HourTime = food.time
+            val _24HourSDF = SimpleDateFormat("HH:mm")
+            val _12HourSDF = SimpleDateFormat("hh:mm a")
+            val _24HourDt = _24HourSDF.parse(_24HourTime)
+            val time =  _12HourSDF.format(_24HourDt!!)
+            binding.tvDate.text = "Date: ${food.date} $time"
 
             val url = BASE_URL+"images/"+food.image
             val glideUrl = GlideUrl(

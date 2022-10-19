@@ -10,6 +10,8 @@ data class Food(
     var calorie:Int,
     @SerializedName("creationDate")
     var date:String,
+    @SerializedName("creationTime")
+    var time:String,
 
     var image:String
 )

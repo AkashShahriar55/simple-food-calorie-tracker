@@ -25,4 +25,6 @@
     <string name="previous_week">Previous week</string>
     <string name="_100_entries">100 entries</string>
     <string name="last_7_days">Last 7 days</string>
+    <string name="time">Time</string>
+    <string name="select_user">Select user</string>
 </resources>

@@ -17,3 +17,5 @@ const val REPORT = "foods/report"
 const val UPDATE = "foods/update"
 
 const val DELETE = "foods/delete"
+
+const val USERS = "foods/users"

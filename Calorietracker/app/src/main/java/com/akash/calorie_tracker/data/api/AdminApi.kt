@@ -1,18 +1,13 @@
 package com.akash.calorie_tracker.data.api
 
-import com.akash.calorie_tracker.ALL_FOODS_ADMIN
-import com.akash.calorie_tracker.DELETE
-import com.akash.calorie_tracker.REPORT
-import com.akash.calorie_tracker.UPDATE
+import com.akash.calorie_tracker.*
 import com.akash.calorie_tracker.domain.models.FoodEditRequest
 import com.akash.calorie_tracker.domain.models.FoodWithUserInfo
 import com.akash.calorie_tracker.domain.models.Reports
+import com.akash.calorie_tracker.domain.models.User
 import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface AdminApi {
 
@@ -29,8 +24,13 @@ interface AdminApi {
     @PUT(UPDATE)
     suspend fun updateFood(foodEditRequest: FoodEditRequest):Response<ResponseBody>
 
-    @PUT(DELETE)
-    suspend fun deleteFood(foodEditRequest: FoodEditRequest):Response<ResponseBody>
+    @DELETE("$DELETE/{Id}")
+    suspend fun deleteFood(@Path("Id") id:Int ):Response<ResponseBody>
+
+
+    @GET(USERS)
+    suspend fun getUsers():Response<List<User>>
+
 
 
 }

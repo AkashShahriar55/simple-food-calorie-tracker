@@ -1,12 +1,15 @@
 package com.akash.calorie_tracker.domain.models
 
 import android.util.Log
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class User(
+    @Expose
     val id:String,
     val roles:List<String>,
+    @Expose
     @SerializedName("email")
     val email:String
 ){
